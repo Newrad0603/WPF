@@ -2888,7 +2888,7 @@ namespace System.Windows.Documents
                                     case XamlAttribute.XAFontSize:
                                         double fs = 0f;
 
-                                        if (XamlParserHelper.ConvertToFontSize(converterState, valueString, ref fs))
+                                        if (XamlParserHelper.ConvertToFontSize(converterState, valueString.AsSpan(), ref fs))
                                         {
                                             formatState.FontSize = (long)Math.Round(fs);
                                         }
@@ -3017,7 +3017,7 @@ namespace System.Windows.Documents
                                         {
                                             int nRowSpan = 0;
 
-                                            if (Converters.StringToInt(valueString, ref nRowSpan))
+                                            if (Converters.StringToInt(valueString.AsSpan(), ref nRowSpan))
                                             {
                                                 if (documentNode.Type == DocumentNodeType.dnCell)
                                                 {
@@ -3031,7 +3031,7 @@ namespace System.Windows.Documents
                                         {
                                             int nColSpan = 0;
 
-                                            if (Converters.StringToInt(valueString, ref nColSpan))
+                                            if (Converters.StringToInt(valueString.AsSpan(), ref nColSpan))
                                             {
                                                 if (documentNode.Type == DocumentNodeType.dnCell)
                                                 {
@@ -3045,7 +3045,7 @@ namespace System.Windows.Documents
                                         {
                                             double d = 0f;
 
-                                            if (Converters.StringToDouble(valueString, ref d))
+                                            if (Converters.StringToDouble(valueString.AsSpan(), ref d))
                                             {
                                                 if (documentNode.Type == DocumentNodeType.dnTable)
                                                 {
@@ -3070,7 +3070,7 @@ namespace System.Windows.Documents
                                         {
                                             double d = 0f;
 
-                                            if (Converters.StringToDouble(valueString, ref d))
+                                            if (Converters.StringToDouble(valueString.AsSpan(), ref d))
                                             {
                                                 int nTableAt = dna.FindPending(DocumentNodeType.dnTable);
                                                 if (nTableAt >= 0)
@@ -3087,7 +3087,7 @@ namespace System.Windows.Documents
                                         else if (xamlTag == XamlTag.XTImage)
                                         {
                                             double d = 0f;
-                                            Converters.StringToDouble(valueString, ref d);
+                                            Converters.StringToDouble(valueString.AsSpan(), ref d);
                                             documentNode.FormatState.ImageWidth = d;
                                         }
                                         break;
@@ -3096,7 +3096,7 @@ namespace System.Windows.Documents
                                         if (xamlTag == XamlTag.XTImage)
                                         {
                                             double d = 0f;
-                                            Converters.StringToDouble(valueString, ref d);
+                                            Converters.StringToDouble(valueString.AsSpan(), ref d);
                                             documentNode.FormatState.ImageHeight = d;
                                         }
                                         break;
@@ -3105,7 +3105,7 @@ namespace System.Windows.Documents
                                         if (xamlTag == XamlTag.XTImage)
                                         {
                                             double d = 0f;
-                                            Converters.StringToDouble(valueString, ref d);
+                                            Converters.StringToDouble(valueString.AsSpan(), ref d);
                                             documentNode.FormatState.ImageBaselineOffset = d;
                                             documentNode.FormatState.IncludeImageBaselineOffset = true;
                                         }
@@ -3181,7 +3181,7 @@ namespace System.Windows.Documents
                                     case XamlAttribute.XAMargin:
                                         {
                                             XamlThickness thickness = new XamlThickness(0f, 0f, 0f, 0f);
-                                            if (XamlParserHelper.ConvertToThickness(converterState, valueString, ref thickness))
+                                            if (XamlParserHelper.ConvertToThickness(converterState, valueString.AsSpan(), ref thickness))
                                             {
                                                 formatState.LI = Converters.PxToTwipRounded(thickness.Left);
                                                 formatState.RI = Converters.PxToTwipRounded(thickness.Right);
@@ -3194,7 +3194,7 @@ namespace System.Windows.Documents
                                     case XamlAttribute.XAPadding:
                                         {
                                             XamlThickness t = new XamlThickness(0f, 0f, 0f, 0f);
-                                            if (XamlParserHelper.ConvertToThickness(converterState, valueString, ref t))
+                                            if (XamlParserHelper.ConvertToThickness(converterState, valueString.AsSpan(), ref t))
                                             {
                                                 if (xamlTag == XamlTag.XTParagraph)
                                                 {
@@ -3217,7 +3217,7 @@ namespace System.Windows.Documents
                                     case XamlAttribute.XABorderThickness:
                                         {
                                             XamlThickness t = new XamlThickness(0f, 0f, 0f, 0f);
-                                            if (XamlParserHelper.ConvertToThickness(converterState, valueString, ref t))
+                                            if (XamlParserHelper.ConvertToThickness(converterState, valueString.AsSpan(), ref t))
                                             {
                                                 if (xamlTag == XamlTag.XTParagraph)
                                                 {
@@ -3585,12 +3585,12 @@ namespace System.Windows.Documents
 
             internal static bool ConvertToTextIndent(ConverterState converterState, string s, ref double d)
             {
-                return Converters.StringToDouble(s, ref d);
+                return Converters.StringToDouble(s.AsSpan(), ref d);
             }
 
             internal static bool ConvertToLineHeight(ConverterState converterState, string s, ref double d)
             {
-                return Converters.StringToDouble(s, ref d);
+                return Converters.StringToDouble(s.AsSpan(), ref d);
             }
 
             internal static bool ConvertToColor(ConverterState converterState, string brush, ref long colorIndex)
